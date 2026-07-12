@@ -1,5 +1,6 @@
 import { fallbackHome } from "../data/fallback";
 import type { HomeBlock, HomeData, NewsArticle } from "./types";
+import { safeExternalHttpUrl } from "./urls";
 
 export const HOME_QUERY = `query Homepage {
   page(id: "/", idType: URI) {
@@ -55,7 +56,7 @@ function normaliseNews(value: unknown): NewsArticle[] | null {
     if (!item || typeof item !== "object") return [];
     const row = item as Record<string, unknown>;
     if (typeof row.id !== "string" || typeof row.title !== "string" || typeof row.url !== "string") return [];
-    return [{ id: row.id, title: row.title, summary: text(row.summary), imageUrl: safeImageUrl(row.imageUrl), publishedAt: text(row.publishedAt), newsSite: text(row.newsSite), url: safeHref(row.url) }];
+    return [{ id: row.id, title: row.title, summary: text(row.summary), imageUrl: safeImageUrl(row.imageUrl), publishedAt: text(row.publishedAt), newsSite: text(row.newsSite), url: safeExternalHttpUrl(row.url) }];
   });
 }
 
