@@ -8,7 +8,7 @@ import type { ContactBlock, HomeData } from "../lib/types";
 
 export default function Home({ home }: InferGetStaticPropsType<typeof getStaticProps>) {
   const contact = home.blocks.find((block): block is ContactBlock => block.type === "contact");
-  return <><Head><title>FDI — Re-imagined Workplaces</title><meta name="description" content="End-to-end workplace design and delivery across Aotearoa."/><meta name="viewport" content="width=device-width, initial-scale=1"/></Head><SiteHeader/><main>{home.blocks.map((block,index)=><BlockRenderer key={`${block.type}-${index}`} block={block} news={home.news}/>)}</main><SiteFooter block={contact}/><span className="data-source" aria-hidden="true">{home.source}</span></>;
+  return <><Head><title>ADH Build — Your Workplace, Reimagined</title><meta name="description" content="Workplace design and fit-out solutions across MENA since 1986."/><meta name="viewport" content="width=device-width, initial-scale=1"/></Head><SiteHeader/><main>{home.blocks.map((block,index)=><BlockRenderer key={`${block.type}-${index}`} block={block} news={home.news}/>)}</main><SiteFooter block={contact}/><span className="data-source" aria-hidden="true">{home.source}</span></>;
 }
 
 export const getStaticProps = (async () => ({ props: { home: await getHomeData() }, revalidate: 60 })) satisfies GetStaticProps<{home:HomeData}>;

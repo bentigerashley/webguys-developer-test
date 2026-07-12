@@ -1,15 +1,17 @@
 <?php
 
 function test_fetcher(): void {
+	$winning_article_url = 'https://spaceflightnow.com/2026/07/11/example-mission-update/';
 	$rows = array(
-		array( 'id' => 7, 'title' => '<script>x</script> New', 'summary' => '<b>Summary</b>', 'url' => 'https://example.com/new', 'image_url' => 'javascript:alert(1)', 'published_at' => '2026-07-10T12:00:00Z', 'news_site' => '<i>Site</i>' ),
-		array( 'id' => 7, 'title' => 'Updated', 'url' => 'https://example.com/newer', 'published_at' => '2026-07-11T12:00:00Z' ),
+		array( 'id' => 7, 'title' => '<script>x</script> New', 'summary' => '<b>Summary</b>', 'url' => 'https://spaceflightnow.com/2026/07/10/earlier-mission-report/', 'image_url' => 'javascript:alert(1)', 'published_at' => '2026-07-10T12:00:00Z', 'news_site' => '<i>Site</i>' ),
+		array( 'id' => 7, 'title' => 'Updated', 'url' => $winning_article_url, 'published_at' => '2026-07-11T12:00:00Z' ),
 		array( 'id' => 8, 'title' => 'Old', 'url' => 'https://example.com/old', 'published_at' => '2026-06-01T12:00:00Z' ),
 		array( 'id' => 9, 'title' => 'Unsafe', 'url' => 'javascript:alert(1)', 'published_at' => '2026-07-09T12:00:00Z' ),
 	);
 	$clean = SFN_Cache_Fetcher::normalize_results( $rows, '2026-07-01' );
 	sfn_assert_same( 1, count( $clean ), 'Cutoff, unsafe records, and duplicate IDs should be handled.' );
 	sfn_assert_same( 'Updated', $clean[0]['title'], 'The last duplicate should win.' );
+	sfn_assert_same( $winning_article_url, $clean[0]['url'], 'Normalization should preserve the winning duplicate\'s article-detail URL.' );
 	sfn_assert_same( '', $clean[0]['image_url'], 'Missing image should normalize to empty.' );
 
 	$GLOBALS['sfn_test_options'][ SFN_Cache_Store::STATE_OPTION ] = array( 'articles' => array( array( 'id' => 'old' ) ), 'status' => array( 'last_success' => 1, 'last_error' => '', 'count' => 1 ) );
