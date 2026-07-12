@@ -20,6 +20,7 @@ require_once __DIR__ . '/includes/class-sfn-cache-store.php';
 require_once __DIR__ . '/includes/class-sfn-cache-fetcher.php';
 require_once __DIR__ . '/includes/class-sfn-cache-admin.php';
 require_once __DIR__ . '/includes/class-sfn-cache-api.php';
+require_once __DIR__ . '/includes/class-sfn-cache-graphql.php';
 require_once __DIR__ . '/includes/class-sfn-cache-plugin.php';
 
 /**

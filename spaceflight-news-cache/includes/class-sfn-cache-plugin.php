@@ -12,6 +12,7 @@ final class SFN_Cache_Plugin {
 		add_action( self::CRON_HOOK, array( 'SFN_Cache_Fetcher', 'refresh' ) );
 		SFN_Cache_Admin::init();
 		SFN_Cache_API::init();
+		SFN_Cache_GraphQL::init();
 	}
 
 	public static function activate(): void {

@@ -10,6 +10,8 @@ $GLOBALS['sfn_test_http_calls'] = 0;
 $GLOBALS['sfn_test_can_manage'] = true;
 $GLOBALS['sfn_test_actions'] = array();
 $GLOBALS['sfn_test_routes'] = array();
+$GLOBALS['sfn_test_graphql_types'] = array();
+$GLOBALS['sfn_test_graphql_fields'] = array();
 
 function __( $text ) { return $text; }
 function esc_html__( $text ) { return $text; }
@@ -32,6 +34,8 @@ function wp_remote_retrieve_body( $response ) { return $response['body']; }
 function wp_strip_all_tags( $value ) { return strip_tags( $value ); }
 function esc_url_raw( $value ) { return preg_match( '#^https?://#i', $value ) ? $value : ''; }
 function add_action( $hook, $callback ) { $GLOBALS['sfn_test_actions'][ $hook ] = $callback; }
+function register_graphql_object_type( $name, $config ) { $GLOBALS['sfn_test_graphql_types'][ $name ] = $config; }
+function register_graphql_field( $type, $name, $config ) { $GLOBALS['sfn_test_graphql_fields'][ $type ][ $name ] = $config; }
 function register_rest_route( $namespace, $route, $args ) { $GLOBALS['sfn_test_routes'][ $namespace . $route ] = $args; }
 function rest_ensure_response( $value ) { return new WP_REST_Response( $value ); }
 function current_user_can() { return $GLOBALS['sfn_test_can_manage']; }
@@ -60,3 +64,4 @@ require_once dirname( __DIR__ ) . '/includes/class-sfn-cache-store.php';
 require_once dirname( __DIR__ ) . '/includes/class-sfn-cache-fetcher.php';
 require_once dirname( __DIR__ ) . '/includes/class-sfn-cache-api.php';
 require_once dirname( __DIR__ ) . '/includes/class-sfn-cache-admin.php';
+require_once dirname( __DIR__ ) . '/includes/class-sfn-cache-graphql.php';
