@@ -1,14 +1,12 @@
 # Fallback source provenance
 
-Retrieved 2026-07-13 for the bounded source-content correction.
+Inspected 2026-07-13 for the Figma content-fidelity correction.
 
-## ADH Build homepage
+## Figma design authority
 
-Source: https://adhbuild.com/
+Source: https://www.figma.com/design/EFx0NBu50PIC74FmHCYGDN/Developer-Test-%E2%80%93-Website_V1--Copy-?node-id=3-267
 
-The indexed homepage identifies the brand as ADH Build and includes “Your Workplace, Reimagined,” “Since 1986,” and the description of ADH as a workplace fit-out contractor across MENA. It lists these portfolio entries: Deloitte Amman Offices, Bayer Cairo, World Bank, Talabat, and Confidential Client. Its services are Design, Interior Fit Out, Design & Build, Furniture Supply, and IT/AV/SEC Solutions.
-
-Only those supported identity facts, labels, and portfolio names are adopted in fallback content. Precise contact details and unsupported awards are omitted.
+The authenticated `Homepage Full Design` frame is the authority for FDI identity, section order, and authored page copy. Verified strings include the dominant `FDI® RI` mark and the complete LinkedIn callout. The API-driven Latest News records remain exempt from static Figma transcription.
 
 ## Spaceflight News API capture
 

@@ -19,10 +19,10 @@ export const HOME_QUERY = `query Homepage {
   spaceflightNews(limit: 6) { id title summary imageUrl publishedAt newsSite url }
 }`;
 
-const knownTypes = new Set(["hero", "about", "services", "featuredCases", "partners", "awards", "latestNews", "contact"]);
+const knownTypes = new Set(["hero", "about", "services", "linkedIn", "featuredCases", "partners", "clients", "awards", "latestNews", "contact"]);
 const text = (value: unknown) => typeof value === "string" ? value : "";
-const safeHref = (value: unknown) => { const url=text(value).trim(); if (url.startsWith("#") || (url.startsWith("/") && !url.startsWith("//"))) return url; try { const parsed=new URL(url); return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.href : "#"; } catch { return "#"; } };
-const safeImageUrl = (value: unknown) => { const url=text(value).trim(); try { const parsed=new URL(url); return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.href : ""; } catch { return ""; } };
+const safeHref = (value: unknown) => { const url=text(value).trim(); if (url.startsWith("#") || (url.startsWith("/") && !url.startsWith("//"))) return url; return safeExternalHttpUrl(url); };
+const safeImageUrl = (value: unknown) => safeExternalHttpUrl(value, "");
 const safeEmail = (value: unknown) => { const email=text(value).trim(); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : ""; };
 const link = (value: unknown) => { const row = value && typeof value === "object" ? value as Record<string,unknown> : {}; return { label: text(row.title) || "Learn more", url: safeHref(row.url) }; };
 const image = (value: unknown) => { const wrapper = value && typeof value === "object" ? value as {node?:Record<string,unknown>} : {}; const node=wrapper.node ?? {}; return { url:safeImageUrl(node.mediaItemUrl), alt:text(node.altText) }; };
@@ -50,6 +50,12 @@ function normaliseBlocks(value: unknown): HomeBlock[] | null {
   return blocks.length ? blocks : null;
 }
 
+function mergeCanonicalBlocks(value: unknown): HomeBlock[] {
+  const cmsBlocks = normaliseBlocks(value) ?? [];
+  const cmsByType = new Map(cmsBlocks.map((block) => [block.type, block]));
+  return fallbackHome.blocks.map((fallbackBlock) => cmsByType.get(fallbackBlock.type) ?? fallbackBlock);
+}
+
 function normaliseNews(value: unknown): NewsArticle[] | null {
   if (!Array.isArray(value)) return null;
   return value.flatMap((item) => {
@@ -64,7 +70,7 @@ export function normaliseGraphQL(payload: unknown): HomeData {
   const data = payload && typeof payload === "object" ? (payload as { data?: Record<string, unknown> }).data : undefined;
   if (!data) return fallbackHome;
   const page = data.page && typeof data.page === "object" ? data.page as { homepageContent?: { sections?: unknown } } : undefined;
-  const blocks = normaliseBlocks(page?.homepageContent?.sections) ?? fallbackHome.blocks;
+  const blocks = mergeCanonicalBlocks(page?.homepageContent?.sections);
   const news = normaliseNews(data.spaceflightNews) ?? fallbackHome.news;
   return { blocks, news, source: "wordpress" };
 }

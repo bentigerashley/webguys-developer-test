@@ -28,7 +28,7 @@ export function SiteHeader() {
   }, [open]);
   const close = () => { setOpen(false); trigger.current?.focus(); };
   return <header className="site-header">
-    <a className="brand" href="#top" aria-label="ADH home"><span className="brand-mark" />ADH</a>
+    <a className="brand" href="#top" aria-label="FDI home"><span className="brand-mark" />FDI</a>
     <nav className="desktop-nav" aria-label="Primary">{links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}<a className="nav-cta" href="#contact">Get in touch</a></nav>
     <button ref={trigger} className="menu-trigger" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}><span>{open ? "Close" : "Menu"}</span><i /></button>
     <nav id="mobile-menu" className={`mobile-menu ${open ? "is-open" : ""}`} aria-label="Mobile primary" aria-hidden={!open}>
