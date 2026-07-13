@@ -1,0 +1,5 @@
+*.zip
+*.tgz
+release/
+frontend/.env*
+!frontend/.env.example
