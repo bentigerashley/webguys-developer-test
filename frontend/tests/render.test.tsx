@@ -15,16 +15,24 @@ describe("homepage components", () => {
   it("renders every supported content block", () => {
     const { container } = render(<main>{fallbackHome.blocks.map((block,index)=><BlockRenderer key={index} block={block} news={fallbackHome.news}/>)}</main>);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Re-imaginedYour Workplace");
-    expect(screen.getByLabelText("FDI® RI")).toBeInTheDocument();
+    expect(container.querySelector(".marquee")).toHaveAttribute("aria-label", "FDI®  Re-imagined Your Workplace");
     expect(screen.getByRole("heading", { name: "About Us" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Latest News" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Follow FDI on LinkedIn!" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Clients" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Our clients say it best" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Built on experience" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Previous featured cases" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Next news stories" })).toBeDisabled();
     expect(screen.queryByRole("button", { name: /subscribe/i })).not.toBeInTheDocument();
     expect(container.querySelectorAll("section").length).toBeGreaterThanOrEqual(9);
+  });
+  it("renders the Figma-style client testimonial tabs", () => {
+    render(<main>{fallbackHome.blocks.map((block,index)=><BlockRenderer key={index} block={block} news={fallbackHome.news}/>)}</main>);
+    expect(screen.getByRole("button", { name: /Elias Ma'ayeh/i })).toHaveAttribute("aria-expanded", "true");
+    const second = screen.getByRole("button", { name: /Niranjan Chitre/i });
+    fireEvent.click(second);
+    expect(second).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText(/complex workplace project/i)).toBeInTheDocument();
   });
   it("opens and closes the accessible mobile menu", () => {
     render(<><SiteHeader/><main/><footer/></>);

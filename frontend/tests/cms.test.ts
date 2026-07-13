@@ -6,7 +6,7 @@ import { getHomeData, normaliseGraphQL } from "../lib/cms";
 describe("CMS data", () => {
   it("ships the canonical FDI fallback content", () => {
     const serialized = JSON.stringify(fallbackHome);
-    expect(serialized).toContain("FDI® RI");
+    expect(serialized).toContain("FDI®  Re-imagined Your Workplace");
     expect(serialized).toContain("Follow FDI on LinkedIn!");
     expect(serialized).toContain("To keep up to date and be the first to know about the news");
     expect(serialized).toContain("Follow us on LinkedIn");
