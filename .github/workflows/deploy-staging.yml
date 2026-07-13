@@ -33,6 +33,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [[ -z "$WORDPRESS_GRAPHQL_URL" ]]; then
+            echo "WORDPRESS_GRAPHQL_URL is not configured; validating the supported fallback build."
+            exit 0
+          fi
           url_pattern='^https://[A-Za-z0-9._~:/?@!$%&*+,;=-]+$'
           [[ "$WORDPRESS_GRAPHQL_URL" =~ $url_pattern ]] || { echo "WORDPRESS_GRAPHQL_URL must be a public HTTPS URL" >&2; exit 1; }
       - name: Lint frontend
@@ -71,7 +75,7 @@ jobs:
 
   deploy:
     needs: validate
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.STAGING_ENABLED == 'true'
     runs-on: ubuntu-latest
     environment: staging
     env:

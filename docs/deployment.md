@@ -14,9 +14,11 @@ The workflow in `.github/workflows/deploy-staging.yml` validates every push to `
    - `SSH_PRIVATE_KEY`: private half of a deploy-only SSH key.
    - `SSH_KNOWN_HOSTS`: output captured from a trusted channel with `ssh-keyscan -p <port> <host>`, verified against the server fingerprint before saving. A non-default port uses `[host]:port` entries.
 
-5. Add `WORDPRESS_GRAPHQL_URL` as a repository variable so the validation build can access the public HTTPS WordPress GraphQL endpoint without entering the protected deployment environment.
+5. Add `WORDPRESS_GRAPHQL_URL` as a repository variable so the validation build can access the public HTTPS WordPress GraphQL endpoint without entering the protected deployment environment. When omitted, CI validates the application's supported fallback mode.
 
-6. Add these `staging` environment variables:
+6. Add the repository variable `STAGING_ENABLED` with value `true` only after the server, environment secrets, and variables below are ready. Until then validation runs normally and deployment is skipped.
+
+7. Add these `staging` environment variables:
 
    - `SSH_PORT`: numeric port, normally `22`.
    - `DEPLOY_PATH`: absolute deployment root such as `/srv/fdi-frontend`; never `/`.
