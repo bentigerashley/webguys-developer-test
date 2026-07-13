@@ -14,7 +14,7 @@ describe("CMS data", () => {
     expect(serialized).toContain('"value":36');
     expect(serialized).toContain("1986");
     expect(serialized).not.toMatch(/ADH|MENA/);
-    expect(fallbackHome.blocks.map((block) => block.type)).toEqual(["hero", "about", "services", "linkedIn", "featuredCases", "partners", "clients", "awards", "latestNews", "contact"]);
+    expect(fallbackHome.blocks.map((block) => block.type)).toEqual(["hero", "about", "services", "featuredCases", "linkedIn", "partners", "clients", "awards", "latestNews", "contact"]);
   });
   it("keeps complete captured Spaceflight News tuples with article-detail destinations", () => {
     expect(fallbackHome.news).toEqual(capturedNews);

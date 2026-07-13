@@ -1,23 +1,29 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 import { SafeImage } from "../components/SafeImage";
 import { NewsSection } from "../components/sections/NewsSection";
 import { LinkedInSection } from "../components/sections/LinkedInSection";
 import { BlockRenderer } from "../components/BlockRenderer";
+import { Preloader } from "../components/Preloader";
 import { fallbackHome } from "../data/fallback";
 
-afterEach(cleanup);
+afterEach(() => { cleanup(); vi.useRealTimers(); vi.restoreAllMocks(); sessionStorage.clear(); });
 
 describe("homepage components", () => {
   it("renders every supported content block", () => {
     const { container } = render(<main>{fallbackHome.blocks.map((block,index)=><BlockRenderer key={index} block={block} news={fallbackHome.news}/>)}</main>);
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("FDI® RI");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Re-imaginedYour Workplace");
+    expect(screen.getByLabelText("FDI® RI")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "About Us" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Latest News" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Follow FDI on LinkedIn!" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Clients" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Built on experience" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Previous featured cases" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Next news stories" })).toBeDisabled();
+    expect(screen.queryByRole("button", { name: /subscribe/i })).not.toBeInTheDocument();
     expect(container.querySelectorAll("section").length).toBeGreaterThanOrEqual(9);
   });
   it("opens and closes the accessible mobile menu", () => {
@@ -25,8 +31,8 @@ describe("homepage components", () => {
     const trigger=screen.getByRole("button",{name:/menu/i});
     fireEvent.click(trigger); expect(trigger).toHaveAttribute("aria-expanded","true");
     const mobileNav=screen.getByRole("navigation",{name:"Mobile primary"});
-    const firstLink=within(mobileNav).getByRole("link",{name:"About"});
-    const lastLink=within(mobileNav).getByRole("link",{name:"Get in touch"});
+    const firstLink=within(mobileNav).getByRole("link",{name:"About Us"});
+    const lastLink=within(mobileNav).getByRole("link",{name:"Contact Us"});
     expect(firstLink).toHaveFocus();
     fireEvent.keyDown(window,{key:"Tab",shiftKey:true}); expect(trigger).toHaveFocus();
     fireEvent.keyDown(window,{key:"Tab",shiftKey:true}); expect(lastLink).toHaveFocus();
@@ -64,5 +70,23 @@ describe("homepage components", () => {
     expect(screen.queryByRole("link", { name: /Follow us on LinkedIn/ })).not.toBeInTheDocument();
     rerender(<LinkedInSection block={{ ...block, cta: { ...block.cta, url: "https://www.linkedin.com/company/fdi" } }}/>);
     expect(screen.getByRole("link", { name: /opens in a new tab/i })).toHaveAttribute("href", "https://www.linkedin.com/company/fdi");
+  });
+  it("dismisses the preloader immediately for keyboard interaction", () => {
+    vi.useFakeTimers();
+    vi.spyOn(window, "matchMedia").mockReturnValue({ matches: false } as MediaQueryList);
+    render(<Preloader />);
+    act(() => vi.advanceTimersByTime(0));
+    expect(document.querySelector(".preloader")).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: "Tab" });
+    expect(document.querySelector(".preloader")).not.toBeInTheDocument();
+    expect(sessionStorage.getItem("fdi-preloader-seen")).toBe("1");
+  });
+  it("finishes the preloader when browser storage rejects writes", () => {
+    vi.useFakeTimers();
+    vi.spyOn(window, "matchMedia").mockReturnValue({ matches: false } as MediaQueryList);
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new DOMException("blocked"); });
+    render(<Preloader />);
+    act(() => vi.advanceTimersByTime(850));
+    expect(document.querySelector(".preloader")).not.toBeInTheDocument();
   });
 });
