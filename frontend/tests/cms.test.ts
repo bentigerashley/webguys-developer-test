@@ -6,7 +6,7 @@ import { getHomeData, normaliseGraphQL } from "../lib/cms";
 describe("CMS data", () => {
   it("ships the canonical FDI fallback content", () => {
     const serialized = JSON.stringify(fallbackHome);
-    expect(serialized).toContain("FDI® RI");
+    expect(serialized).toContain("FDI®  Re-imagined Your Workplace");
     expect(serialized).toContain("Follow FDI on LinkedIn!");
     expect(serialized).toContain("To keep up to date and be the first to know about the news");
     expect(serialized).toContain("Follow us on LinkedIn");
@@ -14,7 +14,7 @@ describe("CMS data", () => {
     expect(serialized).toContain('"value":36');
     expect(serialized).toContain("1986");
     expect(serialized).not.toMatch(/ADH|MENA/);
-    expect(fallbackHome.blocks.map((block) => block.type)).toEqual(["hero", "about", "services", "linkedIn", "featuredCases", "partners", "clients", "awards", "latestNews", "contact"]);
+    expect(fallbackHome.blocks.map((block) => block.type)).toEqual(["hero", "about", "services", "featuredCases", "linkedIn", "partners", "clients", "awards", "latestNews", "contact"]);
   });
   it("keeps complete captured Spaceflight News tuples with article-detail destinations", () => {
     expect(fallbackHome.news).toEqual(capturedNews);
@@ -44,6 +44,17 @@ describe("CMS data", () => {
     expect(result.news).toEqual([]);
     expect(result.source).toBe("wordpress");
   });
+  it("preserves the six canonical award rows when CMS awards are partial", () => {
+    const result = normaliseGraphQL({ data: { page: { homepageContent: { sections: [{
+      __typename: "HomepageContentSectionsAwardsLayout",
+      heading: "Awards & Accreditations",
+      stats: [],
+      awards: [{ title: "Quality (ISO 9001:2015)", issuer: "Accreditation", year: "2020" }]
+    }] } }, spaceflightNews: [] } });
+    const awards = result.blocks.find((block) => block.type === "awards");
+    expect(awards?.awards).toHaveLength(6);
+    expect(awards?.awards.map((award) => award.year)).toEqual(["2022", "2021", "2021", "2020", "2019", "2018"]);
+  });
   it("skips malformed blocks while preserving canonical order", () => {
     const blocks = [fallbackHome.blocks[1], { type: "unknown" }, fallbackHome.blocks[3]];
     const result = normaliseGraphQL({ data: { page: { homepageContent: { sections: blocks } }, spaceflightNews: null } });
@@ -63,5 +74,17 @@ describe("CMS data", () => {
   it.each(["#story", "/article", "//evil.example", "", "mailto:test@example.com", "javascript:alert(1)"])("makes non-HTTP(S) news URL %j unavailable", (url) => {
     const news = normaliseGraphQL({ data: { page: null, spaceflightNews: [{ id: "1", title: "Unavailable", url }] } }).news;
     expect(news[0].url).toBe("#");
+  });
+  it("uses fallback for a non-empty all-invalid news payload but preserves an explicit empty array", () => {
+    const invalid = normaliseGraphQL({ data: { page: null, spaceflightNews: [{ title: "Missing id and URL" }] } });
+    const empty = normaliseGraphQL({ data: { page: null, spaceflightNews: [] } });
+    expect(invalid.news).toEqual(fallbackHome.news);
+    expect(empty.news).toEqual([]);
+  });
+  it("keeps every field in a valid backend news tuple together", () => {
+    const article = { id: "sentinel-42", title: "Sentinel title", summary: "Sentinel summary", imageUrl: "https://example.test/sentinel.jpg", publishedAt: "2026-07-13T00:00:00Z", newsSite: "Sentinel Wire", url: "https://example.test/sentinel" };
+    const result = normaliseGraphQL({ data: { page: null, spaceflightNews: [article] } });
+    expect(result.news).toEqual([article]);
+    expect(result.source).toBe("wordpress");
   });
 });

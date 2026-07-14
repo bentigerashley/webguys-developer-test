@@ -53,17 +53,33 @@ function normaliseBlocks(value: unknown): HomeBlock[] | null {
 function mergeCanonicalBlocks(value: unknown): HomeBlock[] {
   const cmsBlocks = normaliseBlocks(value) ?? [];
   const cmsByType = new Map(cmsBlocks.map((block) => [block.type, block]));
-  return fallbackHome.blocks.map((fallbackBlock) => cmsByType.get(fallbackBlock.type) ?? fallbackBlock);
+  return fallbackHome.blocks.map((fallbackBlock) => {
+    const cmsBlock = cmsByType.get(fallbackBlock.type);
+    if (!cmsBlock) return fallbackBlock;
+    if (fallbackBlock.type === "awards" && cmsBlock.type === "awards") {
+      return {
+        ...fallbackBlock,
+        heading: cmsBlock.heading || fallbackBlock.heading,
+        stats: cmsBlock.stats.length ? cmsBlock.stats : fallbackBlock.stats
+      };
+    }
+    if (fallbackBlock.type === "partners" && cmsBlock.type === "partners") {
+      return { ...cmsBlock, totalCount: fallbackBlock.totalCount };
+    }
+    return cmsBlock;
+  });
 }
 
 function normaliseNews(value: unknown): NewsArticle[] | null {
   if (!Array.isArray(value)) return null;
-  return value.flatMap((item) => {
+  if (value.length === 0) return [];
+  const articles = value.flatMap((item) => {
     if (!item || typeof item !== "object") return [];
     const row = item as Record<string, unknown>;
     if (typeof row.id !== "string" || typeof row.title !== "string" || typeof row.url !== "string") return [];
     return [{ id: row.id, title: row.title, summary: text(row.summary), imageUrl: safeImageUrl(row.imageUrl), publishedAt: text(row.publishedAt), newsSite: text(row.newsSite), url: safeExternalHttpUrl(row.url) }];
   });
+  return articles.length ? articles : null;
 }
 
 export function normaliseGraphQL(payload: unknown): HomeData {

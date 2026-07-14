@@ -3,6 +3,8 @@ name: Validate and deploy staging
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       WORDPRESS_GRAPHQL_URL: ${{ vars.WORDPRESS_GRAPHQL_URL }}
+      STAGING_ENABLED: ${{ vars.STAGING_ENABLED }}
     steps:
       - name: Check out repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -34,6 +37,10 @@ jobs:
         run: |
           set -euo pipefail
           if [[ -z "$WORDPRESS_GRAPHQL_URL" ]]; then
+            if [[ "$GITHUB_REF" == "refs/heads/main" && "$STAGING_ENABLED" == "true" ]]; then
+              echo "WORDPRESS_GRAPHQL_URL is required when staging deployment is enabled" >&2
+              exit 1
+            fi
             echo "WORDPRESS_GRAPHQL_URL is not configured; validating the supported fallback build."
             exit 0
           fi
@@ -104,6 +111,8 @@ jobs:
           for name in SSH_HOST SSH_USER SSH_PRIVATE_KEY SSH_KNOWN_HOSTS SSH_PORT DEPLOY_PATH DEPLOY_BASE SERVICE_NAME HEALTHCHECK_URL; do
             test -n "${!name:-}" || { echo "Required staging setting $name is missing" >&2; exit 1; }
           done
+          [[ "$SSH_USER" =~ ^[A-Za-z_][A-Za-z0-9._-]*$ ]] || { echo "SSH_USER contains unsupported characters" >&2; exit 1; }
+          [[ "$SSH_HOST" =~ ^[A-Za-z0-9][A-Za-z0-9.-]*$ ]] || { echo "SSH_HOST must be a DNS name or IPv4 address" >&2; exit 1; }
           [[ "$SSH_PORT" =~ ^[0-9]{1,5}$ ]] && (( SSH_PORT >= 1 && SSH_PORT <= 65535 ))
           path_pattern='^/[A-Za-z0-9._/-]+$'
           [[ "$DEPLOY_BASE" =~ $path_pattern ]] && [[ "$DEPLOY_BASE" != "/" ]]
@@ -114,7 +123,7 @@ jobs:
           health_pattern='^https?://[A-Za-z0-9._~:/?@!$%&*+,;=-]+$'
           [[ "$HEALTHCHECK_URL" =~ $health_pattern ]]
           expected_host="$SSH_HOST"; [[ "$SSH_PORT" == "22" ]] || expected_host="[$SSH_HOST]:$SSH_PORT"
-          grep -Fq "$expected_host " <<< "$SSH_KNOWN_HOSTS" || { echo "SSH_KNOWN_HOSTS does not contain the selected host and port" >&2; exit 1; }
+          grep -Fq -- "$expected_host " <<< "$SSH_KNOWN_HOSTS" || { echo "SSH_KNOWN_HOSTS does not contain the selected host and port" >&2; exit 1; }
       - name: Configure strict SSH authentication
         shell: bash
         run: |
