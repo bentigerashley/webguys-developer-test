@@ -1,23 +1,37 @@
 import type { PartnersBlock } from "../../lib/types";
+import { useHorizontalRail } from "../../hooks/useHorizontalRail";
 import { safeExternalHttpUrl } from "../../lib/urls";
 import { Reveal } from "../Reveal";
 import { SafeImage } from "../SafeImage";
 
 export function PartnersSection({ block }: { block: PartnersBlock }) {
-  return <section className="section partners page-grid" aria-labelledby="partners-heading">
-    <header className="component-header">
-      <p className="section-index">Partners</p>
+  const { railRef, canPrevious, canNext, previous, next } = useHorizontalRail<HTMLDivElement>();
+  const totalCount = block.totalCount ?? block.partners.length;
+
+  return <section id="partners" className="section partners" aria-labelledby="partners-heading">
+    <div className="page-grid partners-layout">
+      <p className="section-index">Collaborators</p>
       <h2 id="partners-heading">{block.heading}</h2>
-    </header>
-    <p className="partners-intro">{block.intro}</p>
-    <div className="partner-grid" role="list">
-      {block.partners.map((partner, index) => {
-        const content = partner.logo ? <SafeImage image={partner.logo} /> : <span>{partner.logoText}</span>;
-        const href = safeExternalHttpUrl(partner.url, "");
-        return <Reveal key={partner.name} delay={index * 70} className="partner-mark">
-          <div role="listitem" aria-label={href ? undefined : partner.name}>{href ? <a href={href} target="_blank" rel="noreferrer" aria-label={`${partner.name} (opens in a new tab)`}>{content}<b aria-hidden="true">+</b></a> : content}</div>
-        </Reveal>;
-      })}
+      <span className="partners-count" aria-label={`${totalCount} collaborators`}>[{totalCount}]</span>
+      <p className="partners-intro">{block.intro}</p>
+      <div className="partners-rail-wrap">
+        <div ref={railRef} id="partners-rail" className="partners-rail" role="list" aria-label="FDI partners">
+          {block.partners.map((partner, index) => {
+            const content = partner.logo ? <SafeImage image={partner.logo} /> : <strong>{partner.logoText}</strong>;
+            const href = safeExternalHttpUrl(partner.url, "");
+            return <Reveal key={partner.name} delay={index * 70} className="partner-mark">
+              <div role="listitem" aria-label={href ? undefined : partner.name}>
+                {href ? <a href={href} target="_blank" rel="noreferrer" aria-label={`${partner.name} (opens in a new tab)`}>{content}</a> : content}
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              </div>
+            </Reveal>;
+          })}
+        </div>
+        <div className="rail-controls partners-controls" aria-label="Partner carousel controls">
+          <button type="button" onClick={previous} disabled={!canPrevious} aria-controls="partners-rail" aria-label="Previous partners"><span aria-hidden="true">←</span></button>
+          <button type="button" onClick={next} disabled={!canNext} aria-controls="partners-rail" aria-label="Next partners"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
     </div>
   </section>;
 }

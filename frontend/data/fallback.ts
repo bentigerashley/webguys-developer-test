@@ -2,7 +2,7 @@ import type { HomeData } from "../lib/types";
 import capturedNews from "./spaceflight-news-capture.json";
 
 const img = (url: string, alt: string, position?: string) => position ? { url, alt, position } : { url, alt };
-const clientMarks = () => [{ name: "Amazon", logoText: "amazon" }, { name: "Booking.com", logoText: "Booking.com" }, { name: "Deloitte", logoText: "Deloitte." }, { name: "Microsoft", logoText: "Microsoft" }, { name: "B:Hive", logoText: "B:Hive" }, { name: "World Bank", logoText: "World Bank" }, { name: "Bayer", logoText: "Bayer" }, { name: "Talabat", logoText: "talabat" }];
+const clientMarks = () => [{ name: "Amazon", logoText: "amazon" }, { name: "Booking.com", logoText: "Booking.com" }, { name: "Deloitte", logoText: "Deloitte." }, { name: "Merck", logoText: "MERCK" }, { name: "B:Hive", logoText: "B:Hive" }, { name: "World Bank", logoText: "World Bank" }, { name: "Bayer", logoText: "Bayer" }, { name: "Talabat", logoText: "talabat" }];
 const clientTestimonials = () => [
   { name: "Elias Ma'ayeh", role: "Partner - Deloitte", quote: "A huge thank you to FDI for their success, with each project completed we find that you continuously push the envelope. You have proved time and time again to be our trusted partner in the Middle East. Looking forward to our next project together" },
   { name: "Niranjan Chitre", role: "Program Manager-mena - Amazon", quote: "The FDI team delivered with clarity, consistency and an attention to detail that made a complex workplace project feel calm from start to finish." },
@@ -38,12 +38,15 @@ export const fallbackHome: HomeData = {
       { client: "B:Hive", title: "A workplace built for community", meta: "11,000m²", image: img("/images/figma/case-bhive.jpg", "Bright office meeting space"), link: "#" }
     ] },
     { type: "linkedIn", heading: "Follow FDI on LinkedIn!", body: "To keep up to date and be the first to know about the news", cta: { label: "Follow us on LinkedIn", url: "https://www.linkedin.com/" } },
-    { type: "partners", heading: "Our Partners", intro: "We are proud to collaborate with ambitious organisations.", partners: clientMarks() },
+    { type: "partners", heading: "Our Partners", intro: "We are proud to collaborate with a diverse group of trusted partners who share our commitment to excellence and innovation.", partners: clientMarks(), totalCount: 36 },
     { type: "clients", heading: "Our clients\nsay it best", clients: clientTestimonials() },
     { type: "awards", heading: "Awards &\nAccreditations", stats: [{ value: 40, suffix: "+", label: "Years shaping workplaces" }, { value: 36, label: "Industry awards" }, { value: 1986, label: "Year established" }], awards: [
-      { title: "Commercial Interior of the Year", issuer: "Interior Awards", year: "2025" },
-      { title: "Workplace Environment Award", issuer: "Property Industry Awards", year: "2024" },
-      { title: "Quality ISO 9001", issuer: "Accredited", year: "Certified" }
+      { title: "Construction & Project Delivery Award", issuer: "Award", year: "2022", detailLabel: "Construction & Project Delivery", detailPeriod: "Award 2022" },
+      { title: "Occupational Health and Safety (OHSAS: 45001:2018)", issuer: "Accreditation", year: "2021", detailLabel: "Occupational Health & Safety", detailPeriod: "Certified 2021" },
+      { title: "Contractor Achievement Award", issuer: "Award", year: "2021", detailLabel: "Contractor Achievement", detailPeriod: "Award 2021" },
+      { title: "Quality (ISO 9001:2015)", issuer: "Accreditation", year: "2020", detailLabel: "Quality", detailPeriod: "2015 - 2020" },
+      { title: "Innovation & Performance Excellence", issuer: "Award", year: "2019", detailLabel: "Innovation & Performance", detailPeriod: "Award 2019" },
+      { title: "Environmental (ISO: 14001:2004)", issuer: "Accreditation", year: "2018", detailLabel: "Environmental", detailPeriod: "Certified 2018" }
     ] },
     { type: "latestNews", heading: "Latest News", articleCount: 3 },
     { type: "contact", eyebrow: "Have a project in mind?", heading: "Let’s create a workplace people love.", email: "", ctaLabel: "Let’s talk" }

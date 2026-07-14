@@ -1,5 +1,4 @@
 import type { LatestNewsBlock, NewsArticle } from "../../lib/types";
-import { figmaNewsMedia } from "../../data/design-media";
 import { useHorizontalRail } from "../../hooks/useHorizontalRail";
 import { isExternalHttpUrl } from "../../lib/urls";
 import { Reveal } from "../Reveal";
@@ -11,11 +10,9 @@ const formatNewsDate = (value: string) => {
   return value && !Number.isNaN(date.getTime()) ? newsDateFormatter.format(date) : "Latest";
 };
 
-function StoryContent({ article, index }: { article: NewsArticle; index: number }) {
-  const image = figmaNewsMedia[index] ?? { url: article.imageUrl, alt: "" };
-
+function StoryContent({ article }: { article: NewsArticle }) {
   return <>
-    <SafeImage image={image} />
+    <SafeImage image={{ url: article.imageUrl, alt: article.title }} />
     <div className="news-meta">
       <span>{article.newsSite}</span>
       <time dateTime={article.publishedAt}>{formatNewsDate(article.publishedAt)}</time>
@@ -45,10 +42,10 @@ export function NewsSection({ block, news }: { block: LatestNewsBlock; news: New
           return <Reveal key={article.id} delay={index * 70} className={`news-card ${linked ? "" : "is-unavailable"}`}>
             {linked
               ? <a href={article.url} target="_blank" rel="noreferrer" aria-label={`${article.title} (opens in a new tab)`}>
-                <StoryContent article={article} index={index} />
+                <StoryContent article={article} />
                 <b>Read story -&gt;</b>
               </a>
-              : <StoryContent article={article} index={index} />}
+              : <StoryContent article={article} />}
           </Reveal>;
         })}
       </div>

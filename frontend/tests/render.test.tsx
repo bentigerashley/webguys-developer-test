@@ -5,6 +5,8 @@ import { SiteFooter } from "../components/SiteFooter";
 import { SafeImage } from "../components/SafeImage";
 import { NewsSection } from "../components/sections/NewsSection";
 import { LinkedInSection } from "../components/sections/LinkedInSection";
+import { AwardsSection } from "../components/sections/AwardsSection";
+import { PartnersSection } from "../components/sections/PartnersSection";
 import { BlockRenderer } from "../components/BlockRenderer";
 import { Preloader } from "../components/Preloader";
 import { fallbackHome } from "../data/fallback";
@@ -34,6 +36,29 @@ describe("homepage components", () => {
     expect(second).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByText(/complex workplace project/i)).toBeInTheDocument();
   });
+  it("renders all six awards and changes the active credential", () => {
+    const block = fallbackHome.blocks.find((item) => item.type === "awards");
+    if (!block || block.type !== "awards") throw new Error("Missing awards fallback");
+    render(<AwardsSection block={block}/>);
+    const quality = screen.getByRole("button", { name: /2020AccreditationQuality/i });
+    expect(screen.getAllByRole("button", { name: /Award|Accreditation/i })).toHaveLength(6);
+    expect(quality).toHaveAttribute("aria-expanded", "true");
+    const delivery = screen.getByRole("button", { name: /2022AwardConstruction/i });
+    fireEvent.click(delivery);
+    expect(delivery).toHaveAttribute("aria-expanded", "true");
+    expect(quality).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByRole("region", { name: /Construction & Project Delivery Award/i })).toBeVisible();
+  });
+  it("renders partners as a numbered rail with boundary-aware controls", () => {
+    const block = fallbackHome.blocks.find((item) => item.type === "partners");
+    if (!block || block.type !== "partners") throw new Error("Missing partners fallback");
+    render(<PartnersSection block={block}/>);
+    expect(screen.getByText("[36]")).toHaveAccessibleName("36 collaborators");
+    expect(screen.getByRole("button", { name: "Previous partners" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Next partners" })).toBeDisabled();
+    expect(screen.getByRole("list", { name: "FDI partners" })).toBeInTheDocument();
+    expect(screen.getAllByText(/^0[1-8]$/)).toHaveLength(8);
+  });
   it("opens and closes the accessible mobile menu", () => {
     render(<><SiteHeader/><main/><footer/></>);
     const trigger=screen.getByRole("button",{name:/menu/i});
@@ -49,7 +74,7 @@ describe("homepage components", () => {
   });
   it("uses FDI identity in shared chrome and image fallbacks", () => {
     render(<><SiteHeader/><main><SafeImage image={{ url: "", alt: "" }}/></main><SiteFooter/></>);
-    expect(screen.getAllByRole("link", { name: "FDI home" })).toHaveLength(2);
+    expect(screen.getAllByRole("link", { name: "FDI home" })).toHaveLength(1);
     expect(screen.getByRole("img", { name: "Image unavailable" })).toHaveTextContent("FDI");
     expect(screen.getByText(/© \d{4} FDI/)).toBeInTheDocument();
     expect(screen.queryByText(/ADH|MENA/i)).not.toBeInTheDocument();
@@ -71,6 +96,20 @@ describe("homepage components", () => {
     expect(within(invalidCard).queryByText(/Read story/i)).not.toBeInTheDocument();
     expect(invalidCard).toHaveClass("is-unavailable");
     expect(container.querySelector('a[href="#"]')).not.toBeInTheDocument();
+  });
+  it("renders each news card with its own backend image", () => {
+    const news = [{ id: "sentinel", title: "Sentinel story", summary: "Summary", imageUrl: "https://example.test/sentinel.jpg", publishedAt: "2026-07-13T00:00:00Z", newsSite: "Sentinel Wire", url: "https://example.test/story" }];
+    render(<NewsSection block={{ type: "latestNews", heading: "Latest News", articleCount: 1 }} news={news}/>);
+    expect(screen.getByRole("img", { name: "Sentinel story" })).toHaveAttribute("src", news[0].imageUrl);
+  });
+  it("keeps footer navigation visible and reports unavailable form submission", () => {
+    render(<SiteFooter/>);
+    expect(screen.getByRole("navigation", { name: "Footer" })).toHaveTextContent("About UsOur ServicesOur ApproachOur ProjectsContact UsNews BlogFAQs");
+    const forms = screen.getAllByRole("form");
+    const newsletter = within(forms[0]);
+    fireEvent.change(newsletter.getByRole("textbox", { name: /email/i }), { target: { value: "person@example.com" } });
+    fireEvent.submit(forms[0]);
+    expect(newsletter.getByRole("status")).toHaveTextContent(/not connected/i);
   });
   it("only links the LinkedIn call to a safe external destination", () => {
     const block = { type: "linkedIn" as const, heading: "Follow FDI on LinkedIn!", body: "News", cta: { label: "Follow us on LinkedIn", url: "javascript:alert(1)" } };
