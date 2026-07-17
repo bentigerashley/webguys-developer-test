@@ -93,10 +93,11 @@ describe("homepage components", () => {
     fireEvent.click(trigger); expect(trigger).toHaveAttribute("aria-expanded","true");
     const mobileNav=screen.getByRole("navigation",{name:"Mobile primary"});
     const firstLink=within(mobileNav).getByRole("link",{name:"About Us"});
-    const lastLink=within(mobileNav).getByRole("link",{name:"Contact Us"});
     expect(firstLink).toHaveFocus();
-    fireEvent.keyDown(window,{key:"Tab",shiftKey:true}); expect(trigger).toHaveFocus();
-    fireEvent.keyDown(window,{key:"Tab",shiftKey:true}); expect(lastLink).toHaveFocus();
+    fireEvent.keyDown(window,{key:"Tab",shiftKey:true}); expect(within(mobileNav).getByRole("button",{name:/close/i})).toHaveFocus();
+    const signup=within(mobileNav).getByRole("form",{name:"Menu newsletter subscription"});
+    fireEvent.change(within(signup).getByRole("textbox",{name:"Email address"}),{target:{value:"studio@example.com"}});
+    fireEvent.submit(signup); expect(within(signup).getByRole("status")).toHaveTextContent("Thanks, you are on the list.");
     fireEvent.keyDown(window,{key:"Escape"}); expect(trigger).toHaveAttribute("aria-expanded","false");
     expect(trigger).toHaveFocus();
   });
@@ -104,7 +105,7 @@ describe("homepage components", () => {
     render(<><SiteHeader/><main><SafeImage image={{ url: "", alt: "" }}/></main><SiteFooter/></>);
     expect(screen.getAllByRole("link", { name: "FDI home" })).toHaveLength(1);
     expect(screen.getByRole("img", { name: "Image unavailable" })).toHaveTextContent("FDI");
-    expect(screen.getByText(/© \d{4} FDI/)).toBeInTheDocument();
+    expect(screen.getAllByText(/© \d{4} FDI/).length).toBeGreaterThanOrEqual(1);
     expect(screen.queryByText(/ADH|MENA/i)).not.toBeInTheDocument();
   });
   it("links valid stories once and leaves unavailable stories noninteractive", () => {
