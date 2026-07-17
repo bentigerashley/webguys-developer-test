@@ -84,4 +84,4 @@ To select a retained commit explicitly, pass its 40-character SHA as the fifth a
 - Service restart fails: inspect `systemctl --user status <service>` and `journalctl --user -u <service>`.
 - Health check fails: run it from the staging host and verify the service port, reverse proxy, and application logs.
 
-No GitHub or staging URL is claimed by this repository until the owner supplies those external resources.
+
