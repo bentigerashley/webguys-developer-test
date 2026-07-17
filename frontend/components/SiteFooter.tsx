@@ -34,7 +34,6 @@ export function SiteFooter(_props: { block?: ContactBlock }) {
           <span>King Al Hussein Street, Complex No.159<br />Amman, 11190, JO</span>
         </div>
       </div>
-      <p className="footer-newsletter-marker"><span aria-hidden="true" />FDI Newsletter</p>
       <div className="footer-social"><span>Instagram</span><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a></div>
     </section>
     <div className="footer-bottom"><span>Copyright © {new Date().getFullYear()} FDI</span><a href="#top">Privacy Policy</a><span>All rights reserved.</span></div>

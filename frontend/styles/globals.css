@@ -746,8 +746,7 @@ h2 {
   text-transform: none;
   letter-spacing: 0;
 }
-.partners .section-index:before,
-.footer-newsletter-marker span {
+.partners .section-index:before {
   content: "";
   width: 9px;
   height: 9px;
@@ -1492,16 +1491,6 @@ h2 {
 .footer-contact-main .contact-signup-form input {
   min-width: 0;
 }
-.footer-newsletter-marker {
-  grid-column: 11/-1;
-  grid-row: 1;
-  justify-self: end;
-  display: flex;
-  gap: 9px;
-  align-items: flex-start;
-  font-size: 11px;
-  text-transform: uppercase;
-}
 .footer-social {
   grid-column: 1/4;
   grid-row: 2;
@@ -1929,7 +1918,6 @@ h2 {
   }
   .footer-nav,
   .footer-contact-main,
-  .footer-newsletter-marker,
   .footer-social,
   .footer-contact address {
     grid-column: 1/-1;
@@ -1943,9 +1931,6 @@ h2 {
   }
   .footer-contact-main .signup-form {
     margin-top: 45px;
-  }
-  .footer-newsletter-marker {
-    justify-self: start;
   }
   .footer-contact address {
     grid-template-columns: 1fr;

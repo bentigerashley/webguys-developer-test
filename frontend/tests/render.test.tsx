@@ -11,12 +11,13 @@ import { CasesSection } from "../components/sections/CasesSection";
 import { BlockRenderer } from "../components/BlockRenderer";
 import { Preloader } from "../components/Preloader";
 import { fallbackHome } from "../data/fallback";
+import { HomeSections } from "../pages";
 
 afterEach(() => { cleanup(); vi.useRealTimers(); vi.restoreAllMocks(); sessionStorage.clear(); });
 
 describe("homepage components", () => {
   it("renders every supported content block", () => {
-    const { container } = render(<main>{fallbackHome.blocks.map((block,index)=><BlockRenderer key={index} block={block} news={fallbackHome.news}/>)}</main>);
+    const { container } = render(<main><HomeSections home={fallbackHome}/></main>);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Re-imaginedYour Workplace");
     expect(container.querySelector(".marquee")).toHaveAttribute("aria-label", "FDI®  Re-imagined Your Workplace");
     expect(screen.getByRole("heading", { name: "About Us" })).toBeInTheDocument();
@@ -28,6 +29,9 @@ describe("homepage components", () => {
     expect(screen.getByRole("button", { name: "Next news stories" })).toBeDisabled();
     expect(screen.queryByRole("button", { name: /subscribe/i })).not.toBeInTheDocument();
     expect(container.querySelectorAll("section").length).toBeGreaterThanOrEqual(9);
+    const sectionIds = [...container.querySelectorAll("section")].map((section) => section.id);
+    expect(sectionIds.indexOf("partners")).toBeLessThan(sectionIds.indexOf("statistics"));
+    expect(sectionIds.indexOf("statistics")).toBeLessThan(sectionIds.indexOf("clients"));
   });
   it("renders the Figma-style client testimonial tabs", () => {
     render(<main>{fallbackHome.blocks.map((block,index)=><BlockRenderer key={index} block={block} news={fallbackHome.news}/>)}</main>);
@@ -152,6 +156,8 @@ describe("homepage components", () => {
     const { container } = render(<><LinkedInSection block={{ type: "linkedIn", heading: "Follow FDI on LinkedIn!", body: "News", cta: { label: "Follow", url: "" } }}/><SiteFooter/></>);
     expect(container.querySelector(".linkedin-stage")).toBeInTheDocument();
     expect(container.querySelector(".footer-newsletter-scroll")).toBeInTheDocument();
+    expect(container.querySelector(".linkedin-header")).not.toBeInTheDocument();
+    expect(container.querySelector(".footer-newsletter-marker")).not.toBeInTheDocument();
     expect(screen.getByText("To keep up to date and be the first to know about the news")).toBeInTheDocument();
   });
   it("dismisses the preloader immediately for keyboard interaction", () => {

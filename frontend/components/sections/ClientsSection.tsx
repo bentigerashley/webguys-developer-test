@@ -6,7 +6,7 @@ export function ClientsSection({ block }: { block: ClientsBlock }) {
   const [active, setActive] = useState(0);
   const id = useId();
 
-  return <section className="section clients-section" aria-labelledby="clients-heading">
+  return <section id="clients" className="section clients-section" aria-labelledby="clients-heading">
     <header className="clients-header page-grid">
       <p className="section-index"><span aria-hidden="true" />Testimonials:</p>
       <h2 id="clients-heading" aria-label={block.heading.replace(/\n/g, " ")}>{block.heading.split("\n").map((line) => <span key={line}>{line}</span>)}</h2>

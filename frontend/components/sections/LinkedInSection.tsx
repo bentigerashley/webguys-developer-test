@@ -10,7 +10,6 @@ export function LinkedInSection({ block }: { block: LinkedInBlock }) {
     <div className="linkedin-stage">
       <div className="linkedin-media" aria-hidden="true">{linkedInCollageMedia.map((image, index) => <SafeImage key={image.url} image={image} className={`linkedin-media-${index + 1}`} />)}</div>
       <div className="page-grid linkedin-content">
-        <header className="component-header linkedin-header"><p className="section-index">LinkedIn</p><span aria-hidden="true">(04)</span></header>
         <Reveal className="linkedin-copy"><h2 id="linkedin-heading">{block.heading}</h2><p>{block.body}</p>{href ? <a className="button figma-cta linkedin-cta" href={href} target="_blank" rel="noreferrer" aria-label={`${block.cta.label} (opens in a new tab)`}>{block.cta.label}<span aria-hidden="true">→</span></a> : <span className="linkedin-label">{block.cta.label}</span>}</Reveal>
       </div>
     </div>
