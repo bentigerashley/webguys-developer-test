@@ -522,6 +522,14 @@ h2 {
   text-transform: uppercase;
   transform: translate(20px, 0.08em);
 }
+.marquee sup {
+  position: relative;
+  top: -0.25em;
+  margin-left: 0.04em;
+  font-size: 0.24em;
+  letter-spacing: 0;
+  vertical-align: baseline;
+}
 .hero-image {
   height: min(58vw, 835px);
   min-height: 560px;
@@ -2256,6 +2264,9 @@ footer[id] {
     top: auto;
     height: 680px;
     min-height: 680px;
+  }
+  .footer-collage {
+    height: 100%;
   }
   .footer-newsletter-copy {
     grid-column: 1/-1;

@@ -20,6 +20,7 @@ describe("homepage components", () => {
   it("renders every supported content block", () => {
     const { container } = render(<main><HomeSections home={fallbackHome}/></main>);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Re-imaginedYour Workplace");
+    expect(container.querySelector(".marquee sup")).toHaveTextContent("®");
     expect(container.querySelector(".marquee")).toHaveAttribute("aria-label", "FDI®  Re-imagined Your Workplace");
     expect(screen.getByRole("heading", { name: "About Us" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Latest News" })).toBeInTheDocument();
