@@ -1046,8 +1046,11 @@ h2 {
   position: relative;
 }
 .awards .section-index {
-  grid-column: 1/4;
-  padding-top: 16px;
+  position: absolute;
+  top: 20px;
+  left: var(--gutter);
+  z-index: 1;
+  padding-top: 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1172,11 +1175,15 @@ h2 {
 }
 .news-header {
   min-height: 246px;
+  position: relative;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 .news-header .section-index {
-  grid-column: 1/4;
-  padding-top: 15px;
+  position: absolute;
+  top: 20px;
+  left: var(--gutter);
+  z-index: 1;
+  padding-top: 0;
   display: flex;
   align-items: center;
   gap: 10px;
