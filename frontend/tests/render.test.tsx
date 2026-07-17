@@ -8,6 +8,7 @@ import { LinkedInSection } from "../components/sections/LinkedInSection";
 import { AwardsSection } from "../components/sections/AwardsSection";
 import { PartnersSection } from "../components/sections/PartnersSection";
 import { CasesSection } from "../components/sections/CasesSection";
+import { AnimatedStat } from "../components/AnimatedStat";
 import { BlockRenderer } from "../components/BlockRenderer";
 import { Preloader } from "../components/Preloader";
 import { fallbackHome } from "../data/fallback";
@@ -54,6 +55,11 @@ describe("homepage components", () => {
     expect(delivery).toHaveAttribute("aria-expanded", "true");
     expect(quality).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByRole("region", { name: /Construction & Project Delivery Award/i })).toBeVisible();
+  });
+  it("renders year statistics without numeric grouping", () => {
+    render(<AnimatedStat stat={{ value: 1986, label: "Year established" }}/>);
+    expect(screen.getByText("1986")).toBeInTheDocument();
+    expect(screen.queryByText("1,986")).not.toBeInTheDocument();
   });
   it("renders partners as a numbered rail with boundary-aware controls", () => {
     const block = fallbackHome.blocks.find((item) => item.type === "partners");

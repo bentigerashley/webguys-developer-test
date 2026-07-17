@@ -4,6 +4,7 @@ import type { Stat } from "../lib/types";
 export function AnimatedStat({ stat }: { stat: Stat }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [value, setValue] = useState(stat.value);
+  const displayValue = /year/i.test(stat.label) ? String(value) : value.toLocaleString();
   useEffect(() => {
     if ((typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) || !("IntersectionObserver" in window) || !ref.current) return;
     setValue(0);
@@ -20,5 +21,5 @@ export function AnimatedStat({ stat }: { stat: Stat }) {
     }, { threshold: 0.2 });
     observer.observe(ref.current); return () => { observer.disconnect(); cancelAnimationFrame(frame); };
   }, [stat.value]);
-  return <span ref={ref}>{value.toLocaleString()}{stat.suffix}</span>;
+  return <span ref={ref}>{displayValue}{stat.suffix}</span>;
 }
