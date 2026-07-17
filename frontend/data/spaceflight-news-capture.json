@@ -1,29 +1,65 @@
 [
   {
-    "id": "38920",
-    "title": "NASA’s Roman telescope into prelaunch servicing following arrival in Florida",
-    "summary": "NASA’s next space telescope, the Nancy Grace Roman Space Telescope, arrived at Kennedy Space Center…\nThe post NASA’s Roman telescope into prelaunch servicing following arrival in Florida appeared first on NASASpaceFlight.com.",
-    "imageUrl": "https://www.nasaspaceflight.com/wp-content/uploads/2026/07/KSC-20260626-PH-SER01_0002large.jpg",
-    "publishedAt": "2026-07-12T20:46:22Z",
-    "newsSite": "NASASpaceflight",
-    "url": "https://www.nasaspaceflight.com/2026/07/roman-prelaunch-update/"
-  },
-  {
-    "id": "38919",
-    "title": "What’s Happening in Space Policy July 12-18, 2026",
-    "summary": "Here is SpacePolicyOnline.com’s list of space policy events for the week of July 12-18, 2026 and any insight we can offer about them. The House and Senate are in session […]",
-    "imageUrl": "https://spacepolicyonline.com/wp-content/uploads/2026/07/Lindsey-Graham-265x300.jpg",
-    "publishedAt": "2026-07-12T20:30:29Z",
+    "id": "39038",
+    "title": "No-Go For Starship Today, Next Try Maybe Next Week",
+    "summary": "SpaceX postponed its first Starship Flight 13 launch attempt after an issue during engine startup.",
+    "imageUrl": "https://spacepolicyonline.com/wp-content/uploads/2026/07/Starship-no-go-July-16-2026-300x170.jpg",
+    "publishedAt": "2026-07-17T01:46:19Z",
     "newsSite": "SpacePolicyOnline.com",
-    "url": "https://spacepolicyonline.com/news/whats-happening-in-space-policy-july-12-18-2026/"
+    "url": "https://spacepolicyonline.com/news/no-go-for-starship-today-next-try-maybe-next-week/"
   },
   {
-    "id": "38918",
-    "title": "Parabilis tests propulsion system for maneuverable cubesats",
-    "summary": "\nThe Space Force is backing the development of the company’s hybrid engine technology for small satellites\nThe post Parabilis tests propulsion system for maneuverable cubesats appeared first on SpaceNews.",
-    "imageUrl": "https://i0.wp.com/spacenews.com/wp-content/uploads/2026/07/DOTS-1.jpg?fit=786%2C576&ssl=1",
-    "publishedAt": "2026-07-11T13:39:38Z",
+    "id": "39037",
+    "title": "SpaceX aborts Starship Flight 13 launch attempt",
+    "summary": "SpaceX aborted the latest Starship test flight when some engines did not ignite.",
+    "imageUrl": "https://i0.wp.com/spacenews.com/wp-content/uploads/2026/07/starship-lft13-scrub.jpeg?fit=1024%2C571&ssl=1",
+    "publishedAt": "2026-07-17T00:40:05Z",
     "newsSite": "SpaceNews",
-    "url": "https://spacenews.com/parabilis-tests-propulsion-system-for-maneuverable-cubesats/"
+    "url": "https://spacenews.com/spacex-aborts-starship-flight-13-launch-attempt/"
+  },
+  {
+    "id": "39036",
+    "title": "NASA Welcomes Serbia as Newest Artemis Accords Signatory",
+    "summary": "Serbia joined the Artemis Accords during a ceremony at NASA Headquarters in Washington.",
+    "imageUrl": "https://www.nasa.gov/wp-content/uploads/2026/07/serbia.jpg",
+    "publishedAt": "2026-07-16T22:37:19Z",
+    "newsSite": "NASA",
+    "url": "https://www.nasa.gov/organizations/oiir/artemis-accords/nasa-welcomes-serbia-as-newest-artemis-accords-signatory/"
+  },
+  {
+    "id": "39035",
+    "title": "Russia Agrees to ISS Operations, Seat-Swaps, Through 2030",
+    "summary": "Russia and NASA agreed to support International Space Station operations through 2030.",
+    "imageUrl": "https://spacepolicyonline.com/wp-content/uploads/2026/07/Isaacman-Bakanov-July-13-26-Ingalls-300x178.jpg",
+    "publishedAt": "2026-07-16T21:42:38Z",
+    "newsSite": "SpacePolicyOnline.com",
+    "url": "https://spacepolicyonline.com/news/russia-agrees-to-iss-operations-seat-swaps-through-2030/"
+  },
+  {
+    "id": "39034",
+    "title": "SpaceX launches 21 satellites for military data network",
+    "summary": "The Space Development Agency has placed half of its planned Tranche 1 Transport Layer constellation in orbit.",
+    "imageUrl": "https://i0.wp.com/spacenews.com/wp-content/uploads/2026/07/Screenshot-2026-07-16-at-10.32.57-PM.png?fit=1024%2C762&ssl=1",
+    "publishedAt": "2026-07-16T21:00:10Z",
+    "newsSite": "SpaceNews",
+    "url": "https://spacenews.com/spacex-launches-21-satellites-for-military-data-network/"
+  },
+  {
+    "id": "39033",
+    "title": "Nature study identifies a new way to spot nuclear weapons in orbit",
+    "summary": "A Nature Astronomy study proposes a satellite design to detect thermonuclear warheads in space.",
+    "imageUrl": "https://i0.wp.com/spacenews.com/wp-content/uploads/2026/07/cosmos-2553.jpg?fit=1024%2C683&ssl=1",
+    "publishedAt": "2026-07-16T20:36:12Z",
+    "newsSite": "SpaceNews",
+    "url": "https://spacenews.com/nature-study-identifies-a-new-way-to-spot-nuclear-weapons-in-orbit/"
+  },
+  {
+    "id": "39032",
+    "title": "NASA Study Finds Near-Earth Asteroid Is Actually Comet",
+    "summary": "NASA research identifies a puzzling near-Earth object as a comet through precise motion tracking.",
+    "imageUrl": "https://www.nasa.gov/wp-content/uploads/2026/07/1-pia21259.jpg",
+    "publishedAt": "2026-07-16T18:40:26Z",
+    "newsSite": "NASA",
+    "url": "https://www.nasa.gov/solar-system/comets/nasa-study-finds-near-earth-asteroid-is-actually-comet/"
   }
 ]

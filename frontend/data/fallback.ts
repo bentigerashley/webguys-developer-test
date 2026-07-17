@@ -48,7 +48,7 @@ export const fallbackHome: HomeData = {
       { title: "Innovation & Performance Excellence", issuer: "Award", year: "2019", detailLabel: "Innovation & Performance", detailPeriod: "Award 2019" },
       { title: "Environmental (ISO: 14001:2004)", issuer: "Accreditation", year: "2018", detailLabel: "Environmental", detailPeriod: "Certified 2018" }
     ] },
-    { type: "latestNews", heading: "Latest News", articleCount: 3 },
+    { type: "latestNews", heading: "Latest News", articleCount: 7 },
     { type: "contact", eyebrow: "Have a project in mind?", heading: "Let’s create a workplace people love.", email: "", ctaLabel: "Let’s talk" }
   ],
   news: capturedNews

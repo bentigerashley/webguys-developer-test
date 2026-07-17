@@ -36,13 +36,14 @@ describe("homepage components", () => {
     expect(second).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByText(/complex workplace project/i)).toBeInTheDocument();
   });
-  it("renders all six awards and changes the active credential", () => {
+  it("renders all six awards and opens a credential on demand", () => {
     const block = fallbackHome.blocks.find((item) => item.type === "awards");
     if (!block || block.type !== "awards") throw new Error("Missing awards fallback");
     render(<AwardsSection block={block}/>);
     const quality = screen.getByRole("button", { name: /2020AccreditationQuality/i });
     expect(screen.getAllByRole("button", { name: /Award|Accreditation/i })).toHaveLength(6);
-    expect(quality).toHaveAttribute("aria-expanded", "true");
+    expect(quality).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("region", { name: /Quality/i })).not.toBeInTheDocument();
     const delivery = screen.getByRole("button", { name: /2022AwardConstruction/i });
     fireEvent.click(delivery);
     expect(delivery).toHaveAttribute("aria-expanded", "true");
@@ -102,6 +103,12 @@ describe("homepage components", () => {
     render(<NewsSection block={{ type: "latestNews", heading: "Latest News", articleCount: 1 }} news={news}/>);
     expect(screen.getByRole("img", { name: "Sentinel story" })).toHaveAttribute("src", news[0].imageUrl);
   });
+  it("keeps seven latest stories available in the horizontal rail", () => {
+    const news = Array.from({ length: 7 }, (_, index) => ({ id: `${index}`, title: `Story ${index + 1}`, summary: "Summary", imageUrl: "", publishedAt: "", newsSite: "Source", url: "https://example.test/story" }));
+    render(<NewsSection block={{ type: "latestNews", heading: "Latest News", articleCount: 3 }} news={news}/>);
+    expect(screen.getAllByRole("heading", { name: /Story \d/ })).toHaveLength(7);
+    expect(screen.getByRole("heading", { name: /Stay up-to-date/i })).toBeInTheDocument();
+  });
   it("keeps footer navigation visible and reports unavailable form submission", () => {
     render(<SiteFooter/>);
     expect(screen.getByRole("navigation", { name: "Footer" })).toHaveTextContent("About UsOur ServicesOur ApproachOur ProjectsContact UsNews BlogFAQs");
@@ -117,6 +124,14 @@ describe("homepage components", () => {
     expect(screen.queryByRole("link", { name: /Follow us on LinkedIn/ })).not.toBeInTheDocument();
     rerender(<LinkedInSection block={{ ...block, cta: { ...block.cta, url: "https://www.linkedin.com/company/fdi" } }}/>);
     expect(screen.getByRole("link", { name: /opens in a new tab/i })).toHaveAttribute("href", "https://www.linkedin.com/company/fdi");
+  });
+  it("shows the hovered accreditation at the pointer location", () => {
+    const block = fallbackHome.blocks.find((item) => item.type === "awards");
+    if (!block || block.type !== "awards") throw new Error("Awards fallback missing");
+    render(<AwardsSection block={block}/>);
+    const environmental = screen.getByRole("button", { name: /Environmental/i });
+    fireEvent.pointerEnter(environmental, { clientX: 640, clientY: 420 });
+    expect(screen.getByRole("region", { name: /Environmental/i })).toHaveClass("is-pointer-tooltip");
   });
   it("keeps collage scenes in their explicit scroll stages", () => {
     const { container } = render(<><LinkedInSection block={{ type: "linkedIn", heading: "Follow FDI on LinkedIn!", body: "News", cta: { label: "Follow", url: "" } }}/><SiteFooter/></>);

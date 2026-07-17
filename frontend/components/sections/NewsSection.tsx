@@ -23,19 +23,20 @@ function StoryContent({ article }: { article: NewsArticle }) {
 }
 
 export function NewsSection({ block, news }: { block: LatestNewsBlock; news: NewsArticle[] }) {
-  const rows = news.slice(0, block.articleCount);
+  const rows = news.slice(0, Math.max(7, block.articleCount));
   const { railRef, canPrevious, canNext, previous, next } = useHorizontalRail<HTMLDivElement>();
 
   return <section id="news" className="section news" aria-labelledby="news-heading">
     <div className="page-grid news-header">
-      <p className="section-index">Latest News</p>
+      <p className="section-index">Blog</p>
       <h2 id="news-heading">{block.heading}</h2>
-      <div className="news-intro">
-        <p>News, thinking and stories from the world of workplace design.</p>
-        <a className="button accent" href="#news-rail">Explore stories</a>
-      </div>
     </div>
     {rows.length ? <div className="news-rail-wrap">
+      <div className="news-intro">
+        <h3>Stay up-to-date with the latest developments and exciting announcements from our team.</h3>
+        <p>From groundbreaking project launches to new partnerships and industry insights, our Latest News section brings you the most recent updates on everything happening within our company.</p>
+        <a className="button accent" href="#news-rail">View All News<span aria-hidden="true">›</span></a>
+      </div>
       <div ref={railRef} id="news-rail" className="card-row news-rail">
         {rows.map((article, index) => {
           const linked = isExternalHttpUrl(article.url);
