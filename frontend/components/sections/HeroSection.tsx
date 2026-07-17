@@ -3,6 +3,7 @@ import { Reveal } from "../Reveal";
 import { SafeImage } from "../SafeImage";
 
 export function HeroSection({ block }: { block: HeroBlock }) {
+  const [mark, remainder] = block.marqueeText.split("®");
   return <section className="hero" id="top">
     <div className="hero-intro page-grid">
       <div className="hero-meta">
@@ -14,7 +15,7 @@ export function HeroSection({ block }: { block: HeroBlock }) {
         <a className="button accent" href={block.cta.url}>{block.cta.label}<b aria-hidden="true">›</b></a>
       </Reveal>
     </div>
-    <div className="marquee" aria-label={block.marqueeText}><span>{block.marqueeText}</span></div>
+    <div className="marquee" aria-label={block.marqueeText}><span>{remainder === undefined ? block.marqueeText : <>{mark}<sup>®</sup>{remainder}</>}</span></div>
     <SafeImage image={block.image} className="hero-image" eager />
   </section>;
 }

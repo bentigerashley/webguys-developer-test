@@ -16,7 +16,7 @@ export const HOME_QUERY = `query Homepage {
       ... on HomepageContentSectionsContactLayout { eyebrow heading email ctaLabel }
     } }
   }
-  spaceflightNews(limit: 6) { id title summary imageUrl publishedAt newsSite url }
+  spaceflightNews(limit: 7) { id title summary imageUrl publishedAt newsSite url }
 }`;
 
 const knownTypes = new Set(["hero", "about", "services", "linkedIn", "featuredCases", "partners", "clients", "awards", "latestNews", "contact"]);
@@ -39,7 +39,7 @@ function mapBlock(value: unknown): HomeBlock | null {
   if (typename.endsWith("FeaturedCasesLayout")) return {type:"featuredCases",heading:text(row.heading),cases:list("cases").map(item=>({client:text(item.client),title:text(item.title),meta:text(item.meta),image:image(item.image),link:link(item.link).url}))};
   if (typename.endsWith("PartnersLayout")) return {type:"partners",heading:text(row.heading),intro:text(row.intro),partners:list("partners").map(item=>{const partnerLogo=image(item.logo);const partnerUrl=safeHref(item.url);return {name:text(item.name),logoText:partnerLogo.alt||text(item.name),logo:partnerLogo.url?partnerLogo:undefined,url:partnerUrl==="#"?undefined:partnerUrl};})};
   if (typename.endsWith("AwardsLayout")) return {type:"awards",heading:text(row.heading),stats:list("stats").map(item=>({value:Number(item.value)||0,suffix:text(item.suffix)||undefined,label:text(item.label)})),awards:list("awards").map(item=>({title:text(item.title),issuer:text(item.issuer),year:text(item.year)}))};
-  if (typename.endsWith("LatestNewsLayout")) return {type:"latestNews",heading:text(row.heading),articleCount:Math.max(0,Number(row.articleCount)||3)};
+  if (typename.endsWith("LatestNewsLayout")) return {type:"latestNews",heading:text(row.heading),articleCount:Math.max(7,Number(row.articleCount)||7)};
   if (typename.endsWith("ContactLayout")) return {type:"contact",eyebrow:text(row.eyebrow),heading:text(row.heading),email:safeEmail(row.email),ctaLabel:text(row.ctaLabel)};
   return null;
 }
@@ -62,6 +62,9 @@ function mergeCanonicalBlocks(value: unknown): HomeBlock[] {
         heading: cmsBlock.heading || fallbackBlock.heading,
         stats: cmsBlock.stats.length ? cmsBlock.stats : fallbackBlock.stats
       };
+    }
+    if (fallbackBlock.type === "about" && cmsBlock.type === "about") {
+      return { ...cmsBlock, body: fallbackBlock.body, detail: fallbackBlock.detail, cta: fallbackBlock.cta };
     }
     if (fallbackBlock.type === "partners" && cmsBlock.type === "partners") {
       return { ...cmsBlock, totalCount: fallbackBlock.totalCount };

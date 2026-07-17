@@ -2,11 +2,11 @@ export type LinkValue = { label: string; url: string };
 export type ImageValue = { url: string; alt: string; position?: string };
 
 export type HeroBlock = { type: "hero"; eyebrow: string; heading: string; cta: LinkValue; marqueeText: string; image: ImageValue };
-export type AboutBlock = { type: "about"; heading: string; body: string; cta: LinkValue; image: ImageValue };
+export type AboutBlock = { type: "about"; heading: string; body: string; detail?: string; cta: LinkValue; image: ImageValue };
 export type ServiceItem = { title: string; body: string; image: ImageValue };
-export type ServicesBlock = { type: "services"; heading: string; intro: string; items: ServiceItem[] };
+export type ServicesBlock = { type: "services"; heading: string; intro: string; detail?: string; items: ServiceItem[] };
 export type LinkedInBlock = { type: "linkedIn"; heading: string; body: string; cta: LinkValue };
-export type CaseItem = { client: string; title: string; meta: string; image: ImageValue; link: string };
+export type CaseItem = { client: string; title: string; meta: string; details?: string[]; image: ImageValue; link: string };
 export type CasesBlock = { type: "featuredCases"; heading: string; cases: CaseItem[] };
 export type Partner = { name: string; logoText: string; logo?: ImageValue; url?: string };
 export type PartnersBlock = { type: "partners"; heading: string; intro: string; partners: Partner[]; totalCount?: number };

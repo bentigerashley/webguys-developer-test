@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class SFN_Cache_GraphQL {
-	private const DEFAULT_LIMIT = 6;
+	private const DEFAULT_LIMIT = 7;
 	private const MAX_LIMIT = 20;
 
 	public static function init(): void {

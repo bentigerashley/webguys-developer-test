@@ -6,15 +6,17 @@ import { SafeImage } from "../SafeImage";
 export function CasesSection({ block }: { block: CasesBlock }) {
   const { railRef, canPrevious, canNext, previous, next } = useHorizontalRail<HTMLDivElement>();
   return <section id="cases" className="section cases figma-section page-grid" aria-labelledby="cases-heading">
-    <header className="component-header cases-header"><p className="section-index">Featured Cases</p><span aria-hidden="true">(03)</span></header>
+    <header className="component-header cases-header"><p className="section-index">Portfolio</p></header>
     <h2 id="cases-heading">{block.heading}</h2>
+    <span className="cases-count" aria-label="6 featured case studies">[6]</span>
     <div className="rail-controls" aria-label="Featured cases controls"><button type="button" onClick={previous} disabled={!canPrevious} aria-label="Previous featured cases">←</button><button type="button" onClick={next} disabled={!canNext} aria-label="Next featured cases">→</button></div>
     <div ref={railRef} className="card-row cases-rail" role="region" aria-label="Featured cases">
       {block.cases.map((item,index) => <Reveal key={item.client} delay={index*70} className="case-card">{item.link && item.link !== "#" ? <a href={item.link}><CaseContent item={item}/></a> : <CaseContent item={item}/>}</Reveal>)}
     </div>
+    <a className="button dark cases-all" href="#cases">View All Case Studies<span aria-hidden="true">›</span></a>
   </section>;
 }
 
 function CaseContent({ item }: { item: CasesBlock["cases"][number] }) {
-  return <><SafeImage image={item.image} /><div className="card-head"><h3>{item.client}</h3><span aria-hidden="true">↗</span></div><p>{item.title}</p><small>{item.meta}</small></>;
+  return <><SafeImage image={item.image} /><div className="card-head"><span className="case-marker" aria-hidden="true">+</span><h3>{item.client}</h3></div>{item.details ? <div className="case-details">{item.details.map((detail) => <p key={detail}>{detail}</p>)}</div> : <><p>{item.title}</p><small>{item.meta}</small></>}</>;
 }
