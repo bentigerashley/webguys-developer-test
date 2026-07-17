@@ -118,6 +118,12 @@ describe("homepage components", () => {
     rerender(<LinkedInSection block={{ ...block, cta: { ...block.cta, url: "https://www.linkedin.com/company/fdi" } }}/>);
     expect(screen.getByRole("link", { name: /opens in a new tab/i })).toHaveAttribute("href", "https://www.linkedin.com/company/fdi");
   });
+  it("keeps collage scenes in their explicit scroll stages", () => {
+    const { container } = render(<><LinkedInSection block={{ type: "linkedIn", heading: "Follow FDI on LinkedIn!", body: "News", cta: { label: "Follow", url: "" } }}/><SiteFooter/></>);
+    expect(container.querySelector(".linkedin-stage")).toBeInTheDocument();
+    expect(container.querySelector(".footer-newsletter-scroll")).toBeInTheDocument();
+    expect(screen.getByText("To keep up to date and be the first to know about the news")).toBeInTheDocument();
+  });
   it("dismisses the preloader immediately for keyboard interaction", () => {
     vi.useFakeTimers();
     vi.spyOn(window, "matchMedia").mockReturnValue({ matches: false } as MediaQueryList);
