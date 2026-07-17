@@ -2,7 +2,16 @@ import type { HomeData } from "../lib/types";
 import capturedNews from "./spaceflight-news-capture.json";
 
 const img = (url: string, alt: string, position?: string) => position ? { url, alt, position } : { url, alt };
-const clientMarks = () => [{ name: "Amazon", logoText: "amazon" }, { name: "Booking.com", logoText: "Booking.com" }, { name: "Deloitte", logoText: "Deloitte." }, { name: "Merck", logoText: "MERCK" }, { name: "B:Hive", logoText: "B:Hive" }, { name: "World Bank", logoText: "World Bank" }, { name: "Bayer", logoText: "Bayer" }, { name: "Talabat", logoText: "talabat" }];
+const clientMarks = () => [
+  { name: "Amazon", logoText: "amazon", logo: img("/images/figma/partner-amazon.png", "Amazon logo") },
+  { name: "Booking.com", logoText: "Booking.com", logo: img("/images/figma/partner-booking.png", "Booking.com logo") },
+  { name: "Deloitte", logoText: "Deloitte.", logo: img("/images/figma/partner-deloitte.png", "Deloitte logo") },
+  { name: "Merck", logoText: "MERCK", logo: img("/images/figma/partner-merck.png", "Merck logo") },
+  { name: "B:Hive", logoText: "B:Hive" },
+  { name: "World Bank", logoText: "World Bank" },
+  { name: "Bayer", logoText: "Bayer" },
+  { name: "Talabat", logoText: "talabat" }
+];
 const clientTestimonials = () => [
   { name: "Elias Ma'ayeh", role: "Partner - Deloitte", quote: "A huge thank you to FDI for their success, with each project completed we find that you continuously push the envelope. You have proved time and time again to be our trusted partner in the Middle East. Looking forward to our next project together" },
   { name: "Niranjan Chitre", role: "Program Manager-mena - Amazon", quote: "The FDI team delivered with clarity, consistency and an attention to detail that made a complex workplace project feel calm from start to finish." },

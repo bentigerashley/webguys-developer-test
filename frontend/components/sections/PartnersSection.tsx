@@ -2,7 +2,6 @@ import type { PartnersBlock } from "../../lib/types";
 import { useHorizontalRail } from "../../hooks/useHorizontalRail";
 import { safeExternalHttpUrl } from "../../lib/urls";
 import { Reveal } from "../Reveal";
-import { SafeImage } from "../SafeImage";
 
 export function PartnersSection({ block }: { block: PartnersBlock }) {
   const { railRef, canPrevious, canNext, previous, next } = useHorizontalRail<HTMLDivElement>();
@@ -18,7 +17,9 @@ export function PartnersSection({ block }: { block: PartnersBlock }) {
         <div ref={railRef} id="partners-rail" className="partners-rail" role="list" aria-label="FDI partners">
           {block.partners.map((partner, index) => {
             const wordmark = partner.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-            const content = partner.logo ? <SafeImage image={partner.logo} /> : <strong className={`partner-wordmark partner-wordmark-${wordmark}`}>{partner.logoText}</strong>;
+            const content = partner.logo
+              ? <img className="partner-logo" src={partner.logo.url} alt={partner.logo.alt} loading="lazy" />
+              : <strong className={`partner-wordmark partner-wordmark-${wordmark}`}>{partner.logoText}</strong>;
             const href = safeExternalHttpUrl(partner.url, "");
             return <Reveal key={partner.name} delay={index * 70} className="partner-mark">
               <div role="listitem" aria-label={href ? undefined : partner.name}>

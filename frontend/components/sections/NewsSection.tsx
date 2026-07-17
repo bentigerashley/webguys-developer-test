@@ -51,8 +51,8 @@ export function NewsSection({ block, news }: { block: LatestNewsBlock; news: New
         })}
       </div>
       <div className="rail-controls" aria-label="Latest News carousel controls">
-        <button type="button" onClick={previous} disabled={!canPrevious} aria-controls="news-rail" aria-label="Previous news stories">Previous</button>
-        <button type="button" onClick={next} disabled={!canNext} aria-controls="news-rail" aria-label="Next news stories">Next</button>
+        <button type="button" onClick={previous} disabled={!canPrevious} aria-controls="news-rail" aria-label="Previous news stories"><span aria-hidden="true">{"\u2190"}</span></button>
+        <button type="button" onClick={next} disabled={!canNext} aria-controls="news-rail" aria-label="Next news stories"><span aria-hidden="true">{"\u2192"}</span></button>
       </div>
     </div> : <p className="empty-news page-grid">Fresh stories are on their way.</p>}
   </section>;

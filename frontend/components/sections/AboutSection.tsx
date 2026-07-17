@@ -9,7 +9,7 @@ export function AboutSection({ block }: { block: AboutBlock }) {
     <Reveal className="about-copy">
       <p>{block.body}</p>
       {block.detail && <p className="about-detail">{block.detail}</p>}
-      <a className="button figma-cta" href={block.cta.url}>{block.cta.label}<span aria-hidden="true">↗</span></a>
+      <a className="button dark" href={block.cta.url}>{block.cta.label}<span aria-hidden="true">↗</span></a>
     </Reveal>
     <Reveal className="about-media"><SafeImage image={block.image} /></Reveal>
   </section>;

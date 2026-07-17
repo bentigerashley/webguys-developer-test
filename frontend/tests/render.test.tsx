@@ -60,7 +60,7 @@ describe("homepage components", () => {
     expect(screen.getByRole("button", { name: "Next partners" })).toBeDisabled();
     expect(screen.getByRole("list", { name: "FDI partners" })).toBeInTheDocument();
     expect(screen.getAllByText(/^[1-8]$/)).toHaveLength(8);
-    expect(screen.getByText("amazon")).toHaveClass("partner-wordmark");
+    expect(screen.getByRole("img", { name: "Amazon logo" })).toHaveAttribute("src", "/images/figma/partner-amazon.png");
   });
   it("matches the reference About copy and Featured Cases command", () => {
     const about = fallbackHome.blocks.find((item) => item.type === "about");
@@ -121,6 +121,8 @@ describe("homepage components", () => {
     render(<NewsSection block={{ type: "latestNews", heading: "Latest News", articleCount: 3 }} news={news}/>);
     expect(screen.getAllByRole("heading", { name: /Story \d/ })).toHaveLength(7);
     expect(screen.getByRole("heading", { name: /Stay up-to-date/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Previous news stories" })).toHaveTextContent("←");
+    expect(screen.getByRole("button", { name: "Next news stories" })).toHaveTextContent("→");
   });
   it("keeps footer navigation visible and reports unavailable form submission", () => {
     render(<SiteFooter/>);

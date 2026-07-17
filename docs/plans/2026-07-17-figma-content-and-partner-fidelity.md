@@ -47,6 +47,17 @@ The homepage needs a final fidelity pass against the supplied Figma/PDF referenc
 
 **Tests:** assert every partner card exposes its partner name and renders the provided logo when present; retain carousel boundary behavior.
 
+### U4: Remove remaining reference-layout artifacts
+
+**Files:** `frontend/components/sections/AboutSection.tsx`, `frontend/components/sections/CasesSection.tsx`, `frontend/components/sections/NewsSection.tsx`, `frontend/data/fallback.ts`, `frontend/public/images/figma/partner-*.png`, `frontend/styles/globals.css`, `frontend/tests/render.test.tsx`
+
+- Place the About marker at the far-right of the section header, independent of the title grid.
+- Give the Featured Cases CTA a dedicated row below the rail instead of sharing its scrolling track.
+- Render the news carousel controls as the reference arrow icons while retaining accessible labels.
+- Store and display stable local crops of the Figma partner wordmarks in the fallback rail.
+
+**Tests:** assert icon-only news controls, local partner logo rendering, and the featured CTA remain separate accessible controls.
+
 ## Verification Contract
 
 - `npm run lint`, `npm run typecheck`, and `npm test -- --run` in `frontend`.
