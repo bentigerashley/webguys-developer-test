@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const links = [
   ["About Us", "#about", true],
   ["Our Services", "#services", true],
-  ["Our Approach", "#about", true],
+  ["Our Approach", "#services", true],
   ["Our Projects", "#cases", false]
 ] as const;
 

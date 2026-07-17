@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { fallbackHome } from "../data/fallback";
 import capturedNews from "../data/spaceflight-news-capture.json";
-import { getHomeData, normaliseGraphQL } from "../lib/cms";
+import { getHomeData, HOME_QUERY, normaliseGraphQL } from "../lib/cms";
 
 describe("CMS data", () => {
   it("ships the canonical FDI fallback content", () => {
@@ -15,6 +15,9 @@ describe("CMS data", () => {
     expect(serialized).toContain("1986");
     expect(serialized).not.toMatch(/ADH|MENA/);
     expect(fallbackHome.blocks.map((block) => block.type)).toEqual(["hero", "about", "services", "featuredCases", "linkedIn", "partners", "clients", "awards", "latestNews", "contact"]);
+  });
+  it("uses the Part 1 GraphQL news field for seven cached stories", () => {
+    expect(HOME_QUERY).toContain("spaceflightNews(limit: 7)");
   });
   it("keeps complete captured Spaceflight News tuples with article-detail destinations", () => {
     expect(fallbackHome.news).toEqual(capturedNews);

@@ -7,6 +7,7 @@ import { NewsSection } from "../components/sections/NewsSection";
 import { LinkedInSection } from "../components/sections/LinkedInSection";
 import { AwardsSection } from "../components/sections/AwardsSection";
 import { PartnersSection } from "../components/sections/PartnersSection";
+import { CasesSection } from "../components/sections/CasesSection";
 import { BlockRenderer } from "../components/BlockRenderer";
 import { Preloader } from "../components/Preloader";
 import { fallbackHome } from "../data/fallback";
@@ -58,7 +59,19 @@ describe("homepage components", () => {
     expect(screen.getByRole("button", { name: "Previous partners" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Next partners" })).toBeDisabled();
     expect(screen.getByRole("list", { name: "FDI partners" })).toBeInTheDocument();
-    expect(screen.getAllByText(/^0[1-8]$/)).toHaveLength(8);
+    expect(screen.getAllByText(/^[1-8]$/)).toHaveLength(8);
+    expect(screen.getByText("amazon")).toHaveClass("partner-wordmark");
+  });
+  it("matches the reference About copy and Featured Cases command", () => {
+    const about = fallbackHome.blocks.find((item) => item.type === "about");
+    const cases = fallbackHome.blocks.find((item) => item.type === "featuredCases");
+    if (!about || about.type !== "about" || !cases || cases.type !== "featuredCases") throw new Error("Reference blocks missing");
+    render(<><BlockRenderer block={about} news={fallbackHome.news}/><CasesSection block={cases}/></>);
+    expect(screen.getByText("Meet the FDI")).toBeInTheDocument();
+    expect(screen.getByText(/largest Workplace Fit-out contractors across New Zealand/i)).toBeInTheDocument();
+    expect(screen.getByText(/Through our customer obsession/i)).toBeInTheDocument();
+    expect(screen.getByText("Portfolio")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /View All Case Studies/i })).toHaveAttribute("href", "#cases");
   });
   it("opens and closes the accessible mobile menu", () => {
     render(<><SiteHeader/><main/><footer/></>);

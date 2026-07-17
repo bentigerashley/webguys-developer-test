@@ -63,6 +63,9 @@ function mergeCanonicalBlocks(value: unknown): HomeBlock[] {
         stats: cmsBlock.stats.length ? cmsBlock.stats : fallbackBlock.stats
       };
     }
+    if (fallbackBlock.type === "about" && cmsBlock.type === "about") {
+      return { ...cmsBlock, body: fallbackBlock.body, detail: fallbackBlock.detail, cta: fallbackBlock.cta };
+    }
     if (fallbackBlock.type === "partners" && cmsBlock.type === "partners") {
       return { ...cmsBlock, totalCount: fallbackBlock.totalCount };
     }

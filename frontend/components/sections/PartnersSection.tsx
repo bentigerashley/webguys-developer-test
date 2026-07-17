@@ -17,12 +17,13 @@ export function PartnersSection({ block }: { block: PartnersBlock }) {
       <div className="partners-rail-wrap">
         <div ref={railRef} id="partners-rail" className="partners-rail" role="list" aria-label="FDI partners">
           {block.partners.map((partner, index) => {
-            const content = partner.logo ? <SafeImage image={partner.logo} /> : <strong>{partner.logoText}</strong>;
+            const wordmark = partner.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+            const content = partner.logo ? <SafeImage image={partner.logo} /> : <strong className={`partner-wordmark partner-wordmark-${wordmark}`}>{partner.logoText}</strong>;
             const href = safeExternalHttpUrl(partner.url, "");
             return <Reveal key={partner.name} delay={index * 70} className="partner-mark">
               <div role="listitem" aria-label={href ? undefined : partner.name}>
                 {href ? <a href={href} target="_blank" rel="noreferrer" aria-label={`${partner.name} (opens in a new tab)`}>{content}</a> : content}
-                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span aria-hidden="true">{String(index + 1)}</span>
               </div>
             </Reveal>;
           })}

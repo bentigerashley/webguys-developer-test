@@ -2,7 +2,7 @@ export type LinkValue = { label: string; url: string };
 export type ImageValue = { url: string; alt: string; position?: string };
 
 export type HeroBlock = { type: "hero"; eyebrow: string; heading: string; cta: LinkValue; marqueeText: string; image: ImageValue };
-export type AboutBlock = { type: "about"; heading: string; body: string; cta: LinkValue; image: ImageValue };
+export type AboutBlock = { type: "about"; heading: string; body: string; detail?: string; cta: LinkValue; image: ImageValue };
 export type ServiceItem = { title: string; body: string; image: ImageValue };
 export type ServicesBlock = { type: "services"; heading: string; intro: string; items: ServiceItem[] };
 export type LinkedInBlock = { type: "linkedIn"; heading: string; body: string; cta: LinkValue };
