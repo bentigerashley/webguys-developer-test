@@ -42,9 +42,9 @@ export const fallbackHome: HomeData = {
       { title: "Facility Management", body: "Ongoing care that protects workplace quality after completion.", image: img("https://images.unsplash.com/photo-1497366753839-5705494f7dc3?auto=format&fit=crop&w=1200&q=88", "Managed workplace") }
     ] },
     { type: "featuredCases", heading: "Featured Cases", cases: [
-      { client: "Amazon", title: "A connected workplace for a global team", meta: "4,800m²", image: img("/images/figma/case-amazon.jpg", "Amazon workplace project detail"), link: "#" },
-      { client: "Deloitte", title: "Hospitality meets high performance", meta: "7,200m²", image: img("/images/figma/case-deloitte.jpg", "Deloitte facade project"), link: "#" },
-      { client: "B:Hive", title: "A workplace built for community", meta: "11,000m²", image: img("/images/figma/case-bhive.jpg", "Bright office meeting space"), link: "#" }
+      { client: "Amazon", title: "A connected workplace for a global team", meta: "14,500 SQM", details: ["Size: 14,500 SQM", "Type: Design & Build, Detail & Build", "Location: CFC - Cairo, Egypt"], image: img("/images/figma/case-amazon.jpg", "Amazon workplace project detail"), link: "#" },
+      { client: "Deloitte", title: "Hospitality meets high performance", meta: "17,500 SQM", details: ["Size: 17,500 SQM", "Type: Design & Build", "Location: Zahran St - Amman, Jordan"], image: img("/images/figma/case-deloitte.jpg", "Deloitte facade project"), link: "#" },
+      { client: "Brouge", title: "Workplace fit-out", meta: "17,500 SQM", details: ["Size: 17,500 SQM", "Type: Design & Build", "Location: Zahran St - Amman, Jordan"], image: img("/images/figma/case-bhive.jpg", "Brouge workplace project", "60% center"), link: "#" }
     ] },
     { type: "linkedIn", heading: "Follow FDI on LinkedIn!", body: "To keep up to date and be the first to know about the news", cta: { label: "Follow us on LinkedIn", url: "https://www.linkedin.com/" } },
     { type: "partners", heading: "Our Partners", intro: "We are proud to collaborate with a diverse group of trusted partners who share our commitment to excellence and innovation.", partners: clientMarks(), totalCount: 36 },

@@ -619,18 +619,36 @@ h2 {
   scroll-snap-align: start;
 }
 .case-card .safe-image {
-  aspect-ratio: 399/264;
+  aspect-ratio: 453/430;
 }
 .card-head {
   display: flex;
-  justify-content: space-between;
-  border-top: 1px solid;
-  padding-top: 12px;
-  margin-top: 14px;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
 }
 .card-head h3 {
-  font-size: 28px;
+  font-size: 32px;
   margin: 0;
+}
+.case-marker {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #eee;
+  font-size: 20px;
+  flex: 0 0 auto;
+}
+.case-details {
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.25;
+}
+.case-details p {
+  margin: 0 0 12px;
 }
 .case-card > p,
 .case-card a > p {
@@ -640,6 +658,11 @@ h2 {
 .case-card small {
   font-size: 11px;
   opacity: 0.6;
+}
+#top,
+main > section[id],
+footer[id] {
+  scroll-margin-top: 82px;
 }
 .linkedin-section {
   min-height: calc(1067px + 44vh);

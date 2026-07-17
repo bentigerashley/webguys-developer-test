@@ -81,6 +81,8 @@ describe("homepage components", () => {
     expect(screen.getByText(/largest Workplace Fit-out contractors across New Zealand/i)).toBeInTheDocument();
     expect(screen.getByText(/Through our customer obsession/i)).toBeInTheDocument();
     expect(screen.getByText("Portfolio")).toBeInTheDocument();
+    expect(screen.getByText("Type: Design & Build, Detail & Build")).toBeInTheDocument();
+    expect(screen.getAllByText("Location: Zahran St - Amman, Jordan")).toHaveLength(2);
     expect(screen.getByRole("link", { name: /View All Case Studies/i })).toHaveAttribute("href", "#cases");
   });
   it("opens and closes the accessible mobile menu", () => {

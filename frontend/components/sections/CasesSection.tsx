@@ -18,5 +18,5 @@ export function CasesSection({ block }: { block: CasesBlock }) {
 }
 
 function CaseContent({ item }: { item: CasesBlock["cases"][number] }) {
-  return <><SafeImage image={item.image} /><div className="card-head"><h3>{item.client}</h3><span aria-hidden="true">↗</span></div><p>{item.title}</p><small>{item.meta}</small></>;
+  return <><SafeImage image={item.image} /><div className="card-head"><span className="case-marker" aria-hidden="true">+</span><h3>{item.client}</h3></div>{item.details ? <div className="case-details">{item.details.map((detail) => <p key={detail}>{detail}</p>)}</div> : <><p>{item.title}</p><small>{item.meta}</small></>}</>;
 }
