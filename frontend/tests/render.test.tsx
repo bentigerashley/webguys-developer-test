@@ -28,6 +28,8 @@ describe("homepage components", () => {
     expect(screen.getByRole("heading", { name: "Built on experience" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Previous featured cases" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Next news stories" })).toBeDisabled();
+    expect(screen.getByRole("tab", { name: "MEP/IT/AV/SEC" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Learn More/i })).toHaveAttribute("href", "#contact");
     expect(screen.queryByRole("button", { name: /subscribe/i })).not.toBeInTheDocument();
     expect(container.querySelectorAll("section").length).toBeGreaterThanOrEqual(9);
     const sectionIds = [...container.querySelectorAll("section")].map((section) => section.id);

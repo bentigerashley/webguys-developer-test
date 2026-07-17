@@ -450,42 +450,90 @@ h2 {
   min-height: 1112px;
   background: var(--dark);
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.25);
+  border-top: 0;
   padding-bottom: 0;
 }
 .services .page-grid {
   min-height: 1112px;
+  grid-template-rows: 106px 1fr;
+  row-gap: 140px;
 }
 .services-header {
-  border-color: rgba(255, 255, 255, 0.3);
+  height: 106px;
+  border-bottom: 0;
+  padding-top: 20px;
+}
+.services-header .section-index {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.services-header .section-index:before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.services-title-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 206px;
+}
+.services-count {
+  font-size: 32px;
+  line-height: 1.2;
 }
 .services h2 {
-  grid-column: 5/-1;
   text-align: left;
-  padding-top: 18px;
-  font-size: clamp(70px, 7vw, 106px);
+  padding: 0;
+  font-size: 101px;
+  line-height: 0.85;
 }
 .services-support {
   grid-column: 1/5;
-  align-self: end;
-  padding-bottom: 115px;
+  grid-row: 2;
+  align-self: start;
+  padding-top: 48px;
 }
-.services-support > p {
-  font-size: clamp(25px, 2.2vw, 34px);
-  line-height: 1.06;
-  max-width: 360px;
+.services-intro {
+  max-width: 379px;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.services-detail {
+  max-width: 333px;
+  margin: 32px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  line-height: 1.2;
 }
 .services-support .button {
-  margin-top: 56px;
+  margin-top: 64px;
+}
+.services-list-label {
+  grid-column: 5/8;
+  grid-row: 2;
+  align-self: start;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
 }
 .service-tabs {
   grid-column: 5/8;
-  align-self: end;
-  padding-bottom: 0;
+  grid-row: 2;
+  align-self: start;
+  padding-top: 33px;
 }
 .service-tabs button {
   width: 100%;
-  min-height: 54px;
+  min-height: 57px;
   border: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.28);
   background: transparent;
@@ -496,6 +544,9 @@ h2 {
 }
 .service-tabs button span {
   display: none;
+}
+.service-tabs button:first-child {
+  border-top: 0;
 }
 .service-tabs button:last-child {
   border-bottom: 1px solid rgba(255, 255, 255, 0.28);
@@ -510,29 +561,41 @@ h2 {
 }
 .service-panel {
   grid-column: 8/-1;
-  align-self: end;
+  grid-row: 2;
+  align-self: start;
+  margin: 33px -20px 0 -20px;
 }
 .service-panel [role="tabpanel"] {
   background: #fff;
   color: var(--dark);
-  height: 620px;
+  height: 673px;
   display: grid;
-  grid-template-rows: 1.05fr 0.95fr;
+  grid-template-rows: 285px 1fr;
+  gap: 30px;
+  padding: 20px;
 }
 .service-panel .safe-image {
   height: 100%;
+  min-height: 0;
 }
 .service-detail-copy {
-  padding: 20px;
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 20px;
 }
 .service-detail-copy h3 {
   font-size: 34px;
   margin: 0;
 }
+.service-detail-copy .eyebrow {
+  margin: 10px 0 0;
+  color: var(--dark);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
 .service-detail-copy > p:last-child {
+  margin: 0;
   font-size: 13px;
   line-height: 1.35;
 }
@@ -1580,6 +1643,10 @@ footer[id] {
   }
   .services h2 {
     grid-column: 4/-1;
+    font-size: clamp(70px, 9vw, 92px);
+  }
+  .services-title-group {
+    gap: 80px;
   }
   .services-support {
     grid-column: 1/4;
@@ -1688,24 +1755,49 @@ footer[id] {
   .services .page-grid {
     min-height: auto;
   }
+  .services .page-grid {
+    grid-template-rows: auto;
+    row-gap: 40px;
+  }
+  .services-header {
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+  .services-title-group {
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 30px;
+  }
   .services h2,
   .services-support,
   .service-tabs,
-  .service-panel {
+  .service-panel,
+  .services-list-label {
     grid-column: 1/-1;
   }
   .services h2 {
     font-size: 66px;
-    padding: 40px 0;
+    padding: 0;
   }
   .services-support {
+    grid-row: auto;
+    padding-top: 0;
     padding-bottom: 45px;
   }
+  .services-list-label {
+    grid-row: auto;
+  }
   .service-tabs {
+    grid-row: auto;
     padding: 0;
   }
   .service-panel {
+    grid-row: auto;
     margin-top: 20px;
+    margin-right: 0;
+    margin-left: 0;
   }
   .service-panel [role="tabpanel"] {
     height: auto;
